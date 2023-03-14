@@ -3,9 +3,11 @@ package com.example.event.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
+@ToString
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +18,4 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String contact;
 }
