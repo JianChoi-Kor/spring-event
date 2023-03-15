@@ -1,14 +1,22 @@
 package com.example.event.event;
 
+import com.example.event.entity.EventLog;
+import com.example.event.repository.EventLogRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class MemberEventListener {
+
+    private final EventLogRepository eventLogRepository;
 
     @EventListener
     public void defaultEventListener(SavedMemberEvent event) {
@@ -21,8 +29,10 @@ public class MemberEventListener {
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void transactionalEventListenerAfterCommit(SavedMemberEvent event) {
         log.info("TransactionPhase.AFTER_COMMIT ---> {}", event);
+        eventLogRepository.save(new EventLog(1L, "contents1"));
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)

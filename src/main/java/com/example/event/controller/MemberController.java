@@ -15,7 +15,7 @@ public class MemberController {
     @GetMapping("/signup")
     public void signup() {
 //        MemberDto memberDto = new MemberDto(1L, "jan");
-        MemberDto memberDto = new MemberDto(2L, "오류");
+        MemberDto memberDto = new MemberDto(2L, "master");
         try {
             memberService.signup(memberDto);
         } catch (RuntimeException e) {
